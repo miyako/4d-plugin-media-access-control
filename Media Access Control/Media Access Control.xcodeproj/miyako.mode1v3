@@ -276,8 +276,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>16</integer>
-									<integer>15</integer>
+									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
@@ -300,7 +299,7 @@
 							<real>201</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>652 374 788 504 0 0 1440 878 </string>
+						<string>371 366 788 504 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -316,7 +315,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>C_TEXT.cpp</string>
+								<string>4DPlugin.cpp</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -324,17 +323,18 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>C_TEXT.cpp</string>
+										<string>4DPlugin.cpp</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>D1CEDFE116D09ED3007F8501</string>
+										<string>D164185C16F7433D00377EA3</string>
 										<key>history</key>
 										<array>
 											<string>D11A03AC16D071380069F882</string>
 											<string>D11A03AE16D071380069F882</string>
 											<string>D11A03E316D083FF0069F882</string>
-											<string>D1CEDFD116D086FA007F8501</string>
+											<string>D1CAE4F716D0A576009AB172</string>
+											<string>D1CAE50016D0A5B0009AB172</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -346,14 +346,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 0}, {580, 251}}</string>
+								<string>{{0, 0}, {580, 232}}</string>
 								<key>RubberWindowFrame</key>
-								<string>652 374 788 504 0 0 1440 878 </string>
+								<string>371 366 788 504 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
 							<key>Proportion</key>
-							<string>251pt</string>
+							<string>232pt</string>
 						</dict>
 						<dict>
 							<key>ContentConfiguration</key>
@@ -366,14 +366,14 @@
 							<key>GeometryConfiguration</key>
 							<dict>
 								<key>Frame</key>
-								<string>{{0, 256}, {580, 207}}</string>
+								<string>{{0, 237}, {580, 226}}</string>
 								<key>RubberWindowFrame</key>
-								<string>652 374 788 504 0 0 1440 878 </string>
+								<string>371 366 788 504 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
 							<key>Proportion</key>
-							<string>207pt</string>
+							<string>226pt</string>
 						</dict>
 					</array>
 					<key>Proportion</key>
@@ -392,9 +392,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>D1CEDFE216D09ED3007F8501</string>
+				<string>D164185D16F7433D00377EA3</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>D1CEDFE316D09ED3007F8501</string>
+				<string>D164185E16F7433D00377EA3</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -533,10 +533,10 @@
 	<key>WindowOrderList</key>
 	<array>
 		<string>D11A037716D06DAB0069F882</string>
-		<string>/Users/miyako/Desktop/Media Access Control/Media Access Control.xcodeproj</string>
+		<string>/Users/miyako/github-miyako/4d-plugin-media-access-control/Media Access Control/Media Access Control.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>652 374 788 504 0 0 1440 878 </string>
+	<string>371 366 788 504 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -613,7 +613,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>D11A037716D06DAB0069F882</string>
-				<string>D1CEDFE416D09ED3007F8501</string>
+				<string>D164185F16F7433D00377EA3</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
