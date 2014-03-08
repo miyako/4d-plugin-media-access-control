@@ -69,14 +69,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 385306179;
-			PBXWorkspaceStateSaveDate = 385306179;
+			PBXPerProjectTemplateStateSaveDate = 407062863;
+			PBXWorkspaceStateSaveDate = 407062863;
 		};
 		perUserProjectItems = {
+			D1077C1C18434958004ABB92 /* PBXTextBookmark */ = D1077C1C18434958004ABB92 /* PBXTextBookmark */;
 			D11A03AC16D071380069F882 /* PBXTextBookmark */ = D11A03AC16D071380069F882 /* PBXTextBookmark */;
 			D11A03AE16D071380069F882 /* PlistBookmark */ = D11A03AE16D071380069F882 /* PlistBookmark */;
 			D11A03E316D083FF0069F882 /* PBXTextBookmark */ = D11A03E316D083FF0069F882 /* PBXTextBookmark */;
-			D164185C16F7433D00377EA3 /* PBXTextBookmark */ = D164185C16F7433D00377EA3 /* PBXTextBookmark */;
 			D1B905AF16F74E49008E844D /* PBXTextBookmark */ = D1B905AF16F74E49008E844D /* PBXTextBookmark */;
 			D1CAE4F716D0A576009AB172 /* PBXTextBookmark */ = D1CAE4F716D0A576009AB172 /* PBXTextBookmark */;
 		};
@@ -94,9 +94,9 @@
 	};
 	18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {943, 2977}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1902, 2899}}";
 			sepNavSelRange = "{2396, 0}";
-			sepNavVisRange = "{1034, 607}";
+			sepNavVisRange = "{1047, 594}";
 			sepNavWindowFrame = "{{111, 97}, {793, 781}}";
 		};
 	};
@@ -107,6 +107,16 @@
 		uiCtxt = {
 			sepNavWindowFrame = "{{61, 148}, {696, 683}}";
 		};
+	};
+	D1077C1C18434958004ABB92 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */;
+		name = "4DPlugin.cpp: 90";
+		rLen = 0;
+		rLoc = 2396;
+		rType = 0;
+		vrLen = 594;
+		vrLoc = 1047;
 	};
 	D11A037916D06DAB0069F882 /* Source Control */ = {
 		isa = PBXSourceControlManager;
@@ -214,16 +224,6 @@
 		rType = 0;
 		vrLen = 204;
 		vrLoc = 0;
-	};
-	D164185C16F7433D00377EA3 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 18B684FE06944F8800CC6A1E /* 4DPlugin.cpp */;
-		name = "4DPlugin.cpp: 90";
-		rLen = 0;
-		rLoc = 2396;
-		rType = 0;
-		vrLen = 609;
-		vrLoc = 1032;
 	};
 	D19CC17C1353782E0004336E /* C_TEXT.cpp */ = {
 		uiCtxt = {
