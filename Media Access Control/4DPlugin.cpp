@@ -15,32 +15,32 @@
 #include <SystemConfiguration/SCNetworkConfiguration.h>
 #endif
 
-void PluginMain(int32_t selector, PA_PluginParameters params)
+void PluginMain(PA_long32 selector, PA_PluginParameters params)
 {
 	try
 	{
-		int32_t pProcNum = selector;
+		PA_long32 pProcNum = selector;
 		sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
 		PackagePtr pParams = (PackagePtr)params->fParameters;
-
-		CommandDispatcher(pProcNum, pResult, pParams); 
+		
+		CommandDispatcher(pProcNum, pResult, pParams);
 	}
 	catch(...)
 	{
-
+		
 	}
 }
 
-void CommandDispatcher (int32_t pProcNum, sLONG_PTR *pResult, PackagePtr pParams)
+void CommandDispatcher (PA_long32 pProcNum, sLONG_PTR *pResult, PackagePtr pParams)
 {
 	switch(pProcNum)
 	{
-// --- MAC
-
+			// --- MAC
+			
 		case 1 :
 			Get_hardware_address(pResult, pParams);
 			break;
-
+			
 	}
 }
 
@@ -68,13 +68,13 @@ void Get_hardware_address(sLONG_PTR *pResult, PackagePtr pParams)
 	ARRAY_TEXT Param3;
 	ARRAY_TEXT Param4;
 	C_TEXT returnValue;
-
+	
 	Param1.setSize(1);
 	Param2.setSize(1);
 	Param3.setSize(1);
 	Param4.setSize(1);
 	
-#if VERSIONMAC	
+#if VERSIONMAC
 	NSArray * interfaces = (NSArray *)SCNetworkInterfaceCopyAll();
 	
 	if(interfaces)
@@ -93,12 +93,12 @@ void Get_hardware_address(sLONG_PTR *pResult, PackagePtr pParams)
 				if(!hardwareAddress) hardwareAddress = @"";
 				if(!hardwareAddress) name = @"";
 				if(!hardwareAddress) interfaceType = @"";
-				if(!hardwareAddress) displayName = @"";				
+				if(!hardwareAddress) displayName = @"";
 				
 				Param1.appendUTF16String(hardwareAddress);
 				Param2.appendUTF16String(interfaceType);
 				Param3.appendUTF16String(name);
-				Param4.appendUTF16String(displayName);	
+				Param4.appendUTF16String(displayName);
 				
 				if ([name isEqualToString:@"en0"])
 					returnValue.setUTF16String(hardwareAddress);
@@ -112,23 +112,23 @@ void Get_hardware_address(sLONG_PTR *pResult, PackagePtr pParams)
 	PIP_ADAPTER_ADDRESSES pAddresses = NULL;
 	
 	ULONG bufferSize = 30000;
-
+	
 	//Note that the length of the IP_ADAPTER_ADDRESSES structure changed on Windows XP with SP1 and later and also on Windows Vista and later.
 	//http://msdn.microsoft.com/en-us/library/windows/desktop/aa366058(v=vs.85).aspx
-	//The method of using the GetAdaptersAddresses function is strongly discouraged. 
-	//This method requires calling the GetAdaptersAddresses function multiple times.	
+	//The method of using the GetAdaptersAddresses function is strongly discouraged.
+	//This method requires calling the GetAdaptersAddresses function multiple times.
 	//http://msdn.microsoft.com/en-us/library/aa365915(v=vs.85).aspx
-	//The recommended method of calling the GetAdaptersAddresses function is 
-	//to pre-allocate a 15KB working buffer pointed to by the AdapterAddresses parameter. 	
-		
-	std::vector<uint8_t> buf(bufferSize);		
-	pAddresses = (IP_ADAPTER_ADDRESSES *)&buf[0];		
-		
+	//The recommended method of calling the GetAdaptersAddresses function is
+	//to pre-allocate a 15KB working buffer pointed to by the AdapterAddresses parameter.
+	
+	std::vector<uint8_t> buf(bufferSize);
+	pAddresses = (IP_ADAPTER_ADDRESSES *)&buf[0];
+	
 	DWORD dwRetVal = GetAdaptersAddresses(AF_UNSPEC,	//Return both IPv4 and IPv6 addresses associated with adapters with IPv4 or IPv6 enabled.
-										  GAA_FLAG_INCLUDE_PREFIX,	//Return a list of IP address prefixes on this adapter. When this flag is set, IP address prefixes are returned for both IPv6 and IPv4 addresses. This flag is supported on Windows XP with SP1 and later.
-										  NULL, 
-										  pAddresses, 
-										  &bufferSize);
+																				GAA_FLAG_INCLUDE_PREFIX,	//Return a list of IP address prefixes on this adapter. When this flag is set, IP address prefixes are returned for both IPv6 and IPv4 addresses. This flag is supported on Windows XP with SP1 and later.
+																				NULL,
+																				pAddresses,
+																				&bufferSize);
 	
 	if(dwRetVal == ERROR_SUCCESS)
 	{
@@ -137,82 +137,82 @@ void Get_hardware_address(sLONG_PTR *pResult, PackagePtr pParams)
 		while(pCurrAddresses)
 		{
 			CUTF8String interfaceType;
-
-			CUTF16String description;	
-			CUTF16String friendlyName;			
+			
+			CUTF16String description;
+			CUTF16String friendlyName;
 			CUTF8String physicalAddress;
 			
 			switch(pCurrAddresses->IfType)
 			{
 				case IF_TYPE_OTHER:
-						interfaceType = (const uint8_t *)"Other";
+					interfaceType = (const uint8_t *)"Other";
 					break;
 				case IF_TYPE_ETHERNET_CSMACD:
-						interfaceType = (const uint8_t *)"Ethernet";
+					interfaceType = (const uint8_t *)"Ethernet";
 					break;
 				case IF_TYPE_ISO88025_TOKENRING:
-						interfaceType = (const uint8_t *)"Token-Ring";
+					interfaceType = (const uint8_t *)"Token-Ring";
 					break;
 				case IF_TYPE_PPP:
-						interfaceType = (const uint8_t *)"PPP";
+					interfaceType = (const uint8_t *)"PPP";
 					break;
 				case IF_TYPE_SOFTWARE_LOOPBACK:
-						interfaceType = (const uint8_t *)"Software-Loopback";
+					interfaceType = (const uint8_t *)"Software-Loopback";
 					break;
 				case IF_TYPE_ATM:
-						interfaceType = (const uint8_t *)"ATM";
+					interfaceType = (const uint8_t *)"ATM";
 					break;
 				case IF_TYPE_IEEE80211:
-						interfaceType = (const uint8_t *)"IEEE80211";
+					interfaceType = (const uint8_t *)"IEEE80211";
 					break;
 				case IF_TYPE_TUNNEL:
-						interfaceType = (const uint8_t *)"Tunnel";
+					interfaceType = (const uint8_t *)"Tunnel";
 					break;
 				case IF_TYPE_IEEE1394:
-						interfaceType = (const uint8_t *)"IEEE1394";
+					interfaceType = (const uint8_t *)"IEEE1394";
 					break;
 			}
-
+			
 			description = (const PA_Unichar *)pCurrAddresses->Description;
 			friendlyName = (const PA_Unichar *)pCurrAddresses->FriendlyName;
-
+			
 			DWORD physicalAddressLength = pCurrAddresses->PhysicalAddressLength;
 			
 			if(physicalAddressLength == 6)
 			{
 				char macAddress[512];
 				
-				sprintf_s(macAddress,	
-						  sizeof(macAddress),
-						  "%02x:%02x:%02x:%02x:%02x:%02x",	
-						pCurrAddresses->PhysicalAddress[0],
-						pCurrAddresses->PhysicalAddress[1],
-						pCurrAddresses->PhysicalAddress[2],
-						pCurrAddresses->PhysicalAddress[3],
-						pCurrAddresses->PhysicalAddress[4],
-						pCurrAddresses->PhysicalAddress[5]);
+				sprintf_s(macAddress,
+									sizeof(macAddress),
+									"%02x:%02x:%02x:%02x:%02x:%02x",
+									pCurrAddresses->PhysicalAddress[0],
+									pCurrAddresses->PhysicalAddress[1],
+									pCurrAddresses->PhysicalAddress[2],
+									pCurrAddresses->PhysicalAddress[3],
+									pCurrAddresses->PhysicalAddress[4],
+									pCurrAddresses->PhysicalAddress[5]);
 				
 				physicalAddress = CUTF8String((const uint8_t *)macAddress, 17);
-
-				if((pCurrAddresses->IfType == IF_TYPE_ETHERNET_CSMACD) 
-					&& (description.find((const PA_Unichar *)L"Bluetooth" ) != CUTF16String::npos))
+				
+				if((pCurrAddresses->IfType == IF_TYPE_ETHERNET_CSMACD)
+					 && (description.find((const PA_Unichar *)L"Bluetooth" ) != CUTF16String::npos))
 				{
 					returnValue.setUTF8String(&physicalAddress);
 				}
-
+				
 			}
-
+			
 			Param1.appendUTF8String(&physicalAddress);
 			Param2.appendUTF8String(&interfaceType);
 			Param3.appendUTF16String(&description);
-			Param4.appendUTF16String(&friendlyName);	
+			Param4.appendUTF16String(&friendlyName);
 			
 			pCurrAddresses = pCurrAddresses->Next;
 		}
 	}
-		
-#endif	
-
+	
+#endif
+	
 	Param1.toParamAtIndex(pParams, 1);
 	Param2.toParamAtIndex(pParams, 2);
 	Param3.toParamAtIndex(pParams, 3);
