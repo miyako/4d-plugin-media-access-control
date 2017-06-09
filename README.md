@@ -26,6 +26,6 @@ names|ARRAY TEXT|
 displayNames|ARRAY TEXT|
 address|TEXT|
 
-## Example
+## Examples
 
 ![](https://github.com/miyako/4d-plugin-media-access-control/blob/master/images/screenshot.png)
