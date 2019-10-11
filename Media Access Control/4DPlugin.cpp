@@ -195,7 +195,7 @@ void Get_hardware_address(sLONG_PTR *pResult, PackagePtr pParams)
 				physicalAddress = CUTF8String((const uint8_t *)macAddress, 17);
 				
 				if((pCurrAddresses->IfType == IF_TYPE_ETHERNET_CSMACD)
-					 && (description.find((const PA_Unichar *)L"Bluetooth" ) != CUTF16String::npos))
+					 && (description.find((const PA_Unichar *)L"Bluetooth" ) == CUTF16String::npos))
 				{
 					returnValue.setUTF8String(&physicalAddress);
 				}
