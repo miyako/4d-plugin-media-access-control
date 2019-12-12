@@ -16,8 +16,4 @@ This plugin returns the list of MAC (Media Access Control) addresses of the loca
 
 ### Syntax
 
-[miyako.github.io](https://miyako.github.io/2019/11/27/4d-plugin-media-access-control.html)
-
-### Examples
-
-![](https://github.com/miyako/4d-plugin-media-access-control/blob/master/images/screenshot.png)
+[miyako.github.io](https://miyako.github.io/2019/12/12/4d-plugin-media-access-control.html)
