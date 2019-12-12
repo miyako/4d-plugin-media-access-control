@@ -1,1 +1,0 @@
-﻿{"name":"Media Access Control","id":20000,"commands":[{"theme":"MAC","syntax":"Get hardware address(&Y;&Y;&Y;&Y):T"}]}
