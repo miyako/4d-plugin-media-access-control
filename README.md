@@ -3,6 +3,8 @@
 [![license](https://img.shields.io/github/license/miyako/4d-plugin-media-access-control)](LICENSE)
 ![downloads](https://img.shields.io/github/downloads/miyako/4d-plugin-media-access-control/total)
 
+**Note**: for v17 and earlier, move `manifest.json` to `Contents`
+
 # 4d-plugin-media-access-control
 
 This plugin returns the list of MAC (Media Access Control) addresses of the local computer.
