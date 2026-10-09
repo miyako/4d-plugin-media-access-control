@@ -1,2 +1,4 @@
 Media Access Control/build/*
 Media Access Control/test/userPreferences.*
+build/*
+test/Project/DerivedData/*
