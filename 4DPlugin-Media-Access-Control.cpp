@@ -40,20 +40,27 @@ void Get_hardware_address(PA_PluginParameters params) {
     sLONG_PTR *pResult = (sLONG_PTR *)params->fResult;
     PackagePtr pParams = (PackagePtr)params->fParameters;
     
+    ARRAY_TEXT Param1;
+    ARRAY_TEXT Param2;
+    ARRAY_TEXT Param3;
+    ARRAY_TEXT Param4;
+    C_TEXT returnValue;
     
-        ARRAY_TEXT Param1;
-        ARRAY_TEXT Param2;
-        ARRAY_TEXT Param3;
-        ARRAY_TEXT Param4;
-        C_TEXT returnValue;
-        
-        Param1.setSize(1);
-        Param2.setSize(1);
-        Param3.setSize(1);
-        Param4.setSize(1);
-        
+    Param1.setSize(1);
+    Param2.setSize(1);
+    Param3.setSize(1);
+    Param4.setSize(1);
+    
+#if VERSIONMAC
+    NSArray *interfaces = NULL; // owned (Copy rule); released after the try block so a throw cannot leak it
+#endif
+    
+    // Everything that can throw (allocation, string appends) is inside this block,
+    // so the parameter write-back and PA_Return call below are always reached.
+    try
+    {
     #if VERSIONMAC
-        NSArray * interfaces = (NSArray *)SCNetworkInterfaceCopyAll();
+        interfaces = (NSArray *)SCNetworkInterfaceCopyAll();
         
         if(interfaces)
         {
@@ -69,9 +76,9 @@ void Get_hardware_address(PA_PluginParameters params) {
                     NSString *displayName = (NSString *)SCNetworkInterfaceGetLocalizedDisplayName(interface);
                     
                     if(!hardwareAddress) hardwareAddress = @"";
-                    if(!hardwareAddress) name = @"";
-                    if(!hardwareAddress) interfaceType = @"";
-                    if(!hardwareAddress) displayName = @"";
+                    if(!name) name = @"";
+                    if(!interfaceType) interfaceType = @"";
+                    if(!displayName) displayName = @"";
                     
                     Param1.appendUTF16String(hardwareAddress);
                     Param2.appendUTF16String(interfaceType);
@@ -82,35 +89,36 @@ void Get_hardware_address(PA_PluginParameters params) {
                         returnValue.setUTF16String(hardwareAddress);
                 }
             }
-            
-            [interfaces release];
         }
     #else
         
-        PIP_ADAPTER_ADDRESSES pAddresses = NULL;
+        // Only the MAC address, type and names are needed, so skip the per-adapter address lists
+        // (and the prefix list the old code requested). This keeps the required buffer small.
+        const ULONG flags = GAA_FLAG_SKIP_UNICAST
+                          | GAA_FLAG_SKIP_ANYCAST
+                          | GAA_FLAG_SKIP_MULTICAST
+                          | GAA_FLAG_SKIP_DNS_SERVER;
         
-        ULONG bufferSize = 30000;
+        // 15KB is Microsoft's recommended initial working buffer. The required size can still be larger
+        // (many virtual adapters) or change between calls, so retry on ERROR_BUFFER_OVERFLOW.
+        //http://msdn.microsoft.com/en-us/library/windows/desktop/aa365915(v=vs.85).aspx
+        ULONG bufferSize = 15000;
+        std::vector<uint8_t> buf;
+        DWORD dwRetVal = ERROR_BUFFER_OVERFLOW;
         
-        //Note that the length of the IP_ADAPTER_ADDRESSES structure changed on Windows XP with SP1 and later and also on Windows Vista and later.
-        //http://msdn.microsoft.com/en-us/library/windows/desktop/aa366058(v=vs.85).aspx
-        //The method of using the GetAdaptersAddresses function is strongly discouraged.
-        //This method requires calling the GetAdaptersAddresses function multiple times.
-        //http://msdn.microsoft.com/en-us/library/aa365915(v=vs.85).aspx
-        //The recommended method of calling the GetAdaptersAddresses function is
-        //to pre-allocate a 15KB working buffer pointed to by the AdapterAddresses parameter.
-        
-        std::vector<uint8_t> buf(bufferSize);
-        pAddresses = (IP_ADAPTER_ADDRESSES *)&buf[0];
-        
-        DWORD dwRetVal = GetAdaptersAddresses(AF_UNSPEC,    //Return both IPv4 and IPv6 addresses associated with adapters with IPv4 or IPv6 enabled.
-                                                                                    GAA_FLAG_INCLUDE_PREFIX,    //Return a list of IP address prefixes on this adapter. When this flag is set, IP address prefixes are returned for both IPv6 and IPv4 addresses. This flag is supported on Windows XP with SP1 and later.
-                                                                                    NULL,
-                                                                                    pAddresses,
-                                                                                    &bufferSize);
+        for(int attempt = 0; (attempt < 3) && (dwRetVal == ERROR_BUFFER_OVERFLOW); ++attempt)
+        {
+            buf.resize(bufferSize);
+            dwRetVal = GetAdaptersAddresses(AF_UNSPEC,
+                                            flags,
+                                            NULL,
+                                            (PIP_ADAPTER_ADDRESSES)&buf[0],
+                                            &bufferSize); //updated to the required size on ERROR_BUFFER_OVERFLOW
+        }
         
         if(dwRetVal == ERROR_SUCCESS)
         {
-            PIP_ADAPTER_ADDRESSES pCurrAddresses = pAddresses;
+            PIP_ADAPTER_ADDRESSES pCurrAddresses = (PIP_ADAPTER_ADDRESSES)&buf[0];
             
             while(pCurrAddresses)
             {
@@ -151,8 +159,11 @@ void Get_hardware_address(PA_PluginParameters params) {
                         break;
                 }
                 
-                description = (const PA_Unichar *)pCurrAddresses->Description;
-                friendlyName = (const PA_Unichar *)pCurrAddresses->FriendlyName;
+                // constructing a basic_string from a NULL pointer is undefined behaviour
+                if(pCurrAddresses->Description)
+                    description = (const PA_Unichar *)pCurrAddresses->Description;
+                if(pCurrAddresses->FriendlyName)
+                    friendlyName = (const PA_Unichar *)pCurrAddresses->FriendlyName;
                 
                 DWORD physicalAddressLength = pCurrAddresses->PhysicalAddressLength;
                 
@@ -190,12 +201,24 @@ void Get_hardware_address(PA_PluginParameters params) {
         }
         
     #endif
-        
-        Param1.toParamAtIndex(pParams, 1);
-        Param2.toParamAtIndex(pParams, 2);
-        Param3.toParamAtIndex(pParams, 3);
-        Param4.toParamAtIndex(pParams, 4);
-        returnValue.setReturn(pResult);
+    }
+    catch(...)
+    {
+        // fall through: return whatever was collected so the host always gets its parameters and return value
+    }
+    
+#if VERSIONMAC
+    if(interfaces)
+    {
+        [interfaces release];
+        interfaces = NULL;
+    }
+#endif
+    
+    Param1.toParamAtIndex(pParams, 1);
+    Param2.toParamAtIndex(pParams, 2);
+    Param3.toParamAtIndex(pParams, 3);
+    Param4.toParamAtIndex(pParams, 4);
+    returnValue.setReturn(pResult);
 
 }
-
