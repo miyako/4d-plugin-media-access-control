@@ -5,6 +5,8 @@
 
 # 4d-plugin-media-access-control
 
+Maintainers: [manual source Bump and independent Build workflows](.github/RELEASING.md).
+
 This plugin returns the list of MAC (Media Access Control) addresses of the local computer. It asks the operating system for its network interfaces (the SystemConfiguration framework on macOS, the IP Helper API on Windows) and hands the result back as four parallel `Text` arrays — one entry per interface — plus a single `Text` return value holding one "primary" address.
 
 The plugin exposes one command.
