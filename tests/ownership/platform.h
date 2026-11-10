@@ -1,0 +1,8 @@
+#pragma once
+
+// Redirect every identity boundary before any production declaration or call.
+#define SCNetworkInterfaceCopyAll OwnershipCopyAll
+#define SCNetworkInterfaceGetHardwareAddressString OwnershipAddress
+#define SCNetworkInterfaceGetBSDName OwnershipName
+#define SCNetworkInterfaceGetInterfaceType OwnershipType
+#define SCNetworkInterfaceGetLocalizedDisplayName OwnershipDisplay

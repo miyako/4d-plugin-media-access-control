@@ -111,6 +111,7 @@ class WorkflowTests(unittest.TestCase):
         allowed = {
             ".github/workflows/bump-version.yml", ".github/workflows/release.yml",
             "Media Access Control.xcodeproj/project.pbxproj", localized, "README.md",
+            "support/4DPlugin-JSON.cpp", "support/4DPlugin-JSON.h",
         }
         entries = subprocess.check_output(
             ["git", "ls-tree", "-rz", INTAKE], cwd=ROOT).split(b"\0")

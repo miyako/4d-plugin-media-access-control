@@ -1,0 +1,35 @@
+name: Ownership
+
+on:
+  pull_request:
+    paths:
+      - 'support/**'
+      - '4D Plugin API/**'
+      - '4DPlugin-Media-Access-Control.*'
+      - 'tests/**'
+      - '.github/workflows/ownership.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'support/**'
+      - '4D Plugin API/**'
+      - '4DPlugin-Media-Access-Control.*'
+      - 'tests/**'
+      - '.github/workflows/ownership.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  synthetic-ownership:
+    runs-on: macos-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Synthetic-only actual-source ASan and UBSan differential
+        run: python3 tests/ownership/run.py --baseline --output "$RUNNER_TEMP/ownership"
+      - name: Offline repository regressions
+        run: python3 -m unittest discover -s tests
