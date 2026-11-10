@@ -9,7 +9,7 @@ on:
       - 'tests/**'
       - '.github/workflows/ownership.yml'
   push:
-    branches: [master]
+    branches: [master, miyako-media-access-ownership-audit]
     paths:
       - 'support/**'
       - '4D Plugin API/**'
